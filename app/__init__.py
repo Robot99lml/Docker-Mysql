@@ -31,7 +31,7 @@ def create_app(config_name):
 
     from app import models
 
-    @app.route('/departments', methods=['POST'])
+    @app.route('/ctis', methods=['POST'])
     def GetDepartments():
         tzlima = pytz.timezone("America/Lima") 
         date = datetime.now(tzlima).strftime("%Y-%m-%d")
