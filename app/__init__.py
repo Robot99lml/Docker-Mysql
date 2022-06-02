@@ -66,12 +66,22 @@ def create_app(config_name):
                 models.CIT.IDAFILIADO == data['search-mysql']['affiliate-id']
             ).limit(data['search-mysql']['top-limit']).all()
             cits = [ cit.get_response() for cit in ModelCITs]
-
+            json_ = {}
+            for cita in cits:
+                date = cita["FECHA"].split("T")[0]
+                if date in json_.keys():
+                    json_[date].append(
+                        cita
+                    )
+                else:
+                    json_[date] = [
+                        cita
+                        ]
             response = app.response_class(
                 response=json.dumps({
                     'status': 'success',
                     'message': 'successful data collection.',
-                    'data':cits
+                    'data': json_
                 }),
                 status=200,
                 mimetype='application/json'
