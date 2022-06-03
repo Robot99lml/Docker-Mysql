@@ -89,5 +89,88 @@ def create_app(config_name):
 
             return response
 
+    @app.route('/afis/docidafiliado', methods=['POST'])
+    def Get_affiliate_by_docidafiliado():
+        data = request.json
+        if 'search-mysql' not in data:
+            response = app.response_class(
+             response = json.dumps({
+                'status': 'fail',
+                'message': 'search-mysql doest not exits on request',
+		    }),
+             status=400,
+             mimetype='application/json'
+            )
+            return response 
+        
+        else:
+            ModelAFI = models.AFI.query.filter(
+                models.AFI.DOCIDAFILIADO == data['search-mysql']['docID-affiliate']
+            ).first()
 
+            if (ModelAFI is None):
+                response = app.response_class(
+                    response = json.dumps({
+                        'status': 'fail',
+                        'message': 'docID-affiliate does not exits',
+                    }),
+                    status=400,
+                    mimetype='application/json'
+                )
+                return response 
+            else:
+                response = app.response_class(
+                    response=json.dumps({
+                        'status': 'success',
+                        'message': 'successful data collection.',
+                        'data': ModelAFI.get_response()
+                    }),
+                    status=200,
+                    mimetype='application/json'
+                )
+
+                return response
+
+    # def Get_affiliate_by_idafiliado():
+    @app.route('/afis/idafiliado', methods=['POST'])
+    def Get_affiliate_by_idafiliado():
+        data = request.json
+        if 'search-mysql' not in data:
+            response = app.response_class(
+            response = json.dumps({
+                'status': 'fail',
+                'message': 'search-mysql doest not exits on request',
+            }),
+            status=400,
+            mimetype='application/json'
+            )
+            return response 
+        
+        else:
+            ModelAFI = models.AFI.query.filter(
+                models.AFI.IDAFILIADO == data['search-mysql']['affiliateID']
+            ).first()
+
+            if (ModelAFI is None):
+                response = app.response_class(
+                    response = json.dumps({
+                        'status': 'fail',
+                        'message': 'affiliateID does not exits',
+                    }),
+                    status=400,
+                    mimetype='application/json'
+                )
+                return response 
+            else:
+                response = app.response_class(
+                    response=json.dumps({
+                        'status': 'success',
+                        'message': 'successful data collection.',
+                        'data': ModelAFI.get_response()
+                    }),
+                    status=200,
+                    mimetype='application/json'
+                )
+
+                return response
     return app

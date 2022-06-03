@@ -34,13 +34,13 @@ class AFI(db.Model):
     __tablename__ = 'AFI'
     
     ID = db.Column(db.Integer, primary_key=True, autoincrement=True, index=True)
-    IDAFILIADO = db.Column(db.String(15), nullable= True)
+    IDAFILIADO = db.Column(db.Integer, nullable= True)
     PAPELLIDO = db.Column(db.String(15), nullable= True)
     SAPELLIDO = db.Column(db.String(15), nullable= True)
     PNOMBRE = db.Column(db.String(15), nullable= True)
     SNOMBRE = db.Column(db.String(15), nullable= True)
     TIPO_DOC = db.Column(db.String(15), nullable= True)
-    DOCIDAFILIADO = db.Column(db.String(15), nullable= True)
+    DOCIDAFILIADO = db.Column(db.Integer, nullable= True)
     IDALTERNA = db.Column(db.String(15), nullable= True)
     IDAFILIADOPPAL = db.Column(db.String(15), nullable= True)
     GRUPO_SANG = db.Column(db.String(15), nullable= True)
@@ -165,6 +165,41 @@ class AFI(db.Model):
     FECHAPRORROGA = db.Column(db.DateTime(timezone=False), nullable= True)
     CLASEPRORROGA = db.Column(db.String(64), nullable= True)
     CRONICO = db.Column(db.String(64), nullable= True)
+
+    def get_response(self, **kwargs):
+        """
+        Return response
+        """
+        entity = {
+            'IDAFILIADO': self.IDAFILIADO,
+            'PAPELLIDO': self.PAPELLIDO,
+            'SAPELLIDO': self.SAPELLIDO,
+            'PNOMBRE': self.PNOMBRE,
+            'SNOMBRE': self.SNOMBRE,
+            'TIPO_DOC': self.TIPO_DOC,
+            'DOCIDAFILIADO': self.DOCIDAFILIADO,
+            'GRUPO_SANG': self.GRUPO_SANG,
+            'ESTADO_CIVIL': self.ESTADO_CIVIL,
+            'GRUPOETNICO': self.GRUPOETNICO,
+            'SEXO': self.SEXO,
+            'DIRECCION': self.DIRECCION,
+            'TELEFONORES': self.TELEFONORES,
+            'CIUDAD': self.CIUDAD,
+            'ZONA': self.ZONA,
+            'ESTADO': self.ESTADO,
+            'IDSEDE': self.IDSEDE,
+            'IDPROVEEDOR': self.IDPROVEEDOR,
+            'FNACIMIENTO': self.FNACIMIENTO,
+            'NIVELSOCIOEC': self.NIVELSOCIOEC,
+            'IDPLAN': self.IDPLAN,
+            'NUMCARNET': self.NUMCARNET,
+            'CIUDADDOC': self.CIUDADDOC,
+            'CIUDADNAC': self.CIUDADNAC,
+            'NACIONALIDAD': self.NACIONALIDAD,
+            'IDBARRIO': self.IDBARRIO,
+            'IDTIPOAFILIACION': self.IDTIPOAFILIACION
+        }
+        return entity
 
 class SERTOT(db.Model):
     """
