@@ -131,7 +131,6 @@ def create_app(config_name):
 
                 return response
 
-    # def Get_affiliate_by_idafiliado():
     @app.route('/afis/idafiliado', methods=['POST'])
     def Get_affiliate_by_idafiliado():
         data = request.json
@@ -173,4 +172,44 @@ def create_app(config_name):
                 )
 
                 return response
+    
+    @app.route('/affiliates/create', methods=['POST'])
+    def Create_affiliate():
+        data = request.json
+        if 'create-mysql' not in data:
+            response = app.response_class(
+            response = json.dumps({
+                'status': 'fail',
+                'message': 'create-mysql doest not exits on request',
+            }),
+            status=400,
+            mimetype='application/json'
+            )
+            return response 
+
+        afi = models.AFI(
+            TIPO_DOC=data['create-mysql']["typeDoc"],
+            DOCIDAFILIADO=data['create-mysql']["numberDoc"],
+            PNOMBRE=data['create-mysql']["firstName"],
+            PAPELLIDO=data['create-mysql']["firstSurname"],
+            SEXO=data['create-mysql']["gender"],
+            IDTIPOAFILIACION=data['create-mysql']["iPS"],
+            IDPLAN=data['create-mysql']["planID"],
+            TELEFONORES=data['create-mysql']["phone"],
+            DIRECCION=data['create-mysql']["address"],
+            IDSEDE=data['create-mysql']["sedeID"]
+        )
+        db.session.add(afi)
+        db.session.flush()
+        db.session.commit()
+        response = app.response_class(
+            response=json.dumps({
+                'status': 'success',
+                'message': 'successful data collection.',
+                'data': afi.get_response()
+            }),
+            status=200,
+            mimetype='application/json'
+        )
+        return response
     return app
